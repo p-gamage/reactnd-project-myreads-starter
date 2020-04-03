@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
 const Search = (props) => (
@@ -26,8 +26,8 @@ const Search = (props) => (
   </div>
 );
 
-Search.propTypes = {
-  closeSearch: PropTypes.func.isRequired
-};
+// Search.propTypes = {
+//   closeSearch: PropTypes.func.isRequired
+// };
 
 export default Search;

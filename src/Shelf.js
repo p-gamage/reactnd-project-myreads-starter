@@ -8,7 +8,7 @@ const Shelf = (props) => (
     <div className="bookshelf-books">
       <ol className="books-grid">
         {props.books.map((book) => (
-          <Book key={book.id} book={book} />
+          <Book key={book.id} book={book} handleMoveShelf={props.handleMoveShelf} />
         ))}
       </ol>
     </div>
@@ -17,7 +17,8 @@ const Shelf = (props) => (
 
 Shelf.propTypes = {
   shelfName: PropTypes.string.isRequired,
-  books: PropTypes.arrayOf(PropTypes.object).isRequired
+  books: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleMoveShelf: PropTypes.func.isRequired
 };
 
 export default Shelf;

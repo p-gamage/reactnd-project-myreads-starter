@@ -20,6 +20,15 @@ class Library extends Component {
   filterBooks = (books, currentShelf) =>
     books.filter((book) => this.formatShelfName(book.shelf) === this.formatShelfName(currentShelf));
 
+  updateShelf = (bookId, newShelf) => {
+    const bookToUpdate = this.state.books.find((book) => book.id === bookId);
+    bookToUpdate.shelf = newShelf;
+
+    BooksAPI.update(bookToUpdate, newShelf);
+
+    this.setState({bookToUpdate});
+  };
+
   render() {
     return (
       <div className="list-books">
@@ -33,6 +42,7 @@ class Library extends Component {
                 key={this.formatShelfName(shelf)}
                 shelfName={shelf}
                 books={this.filterBooks(this.state.books, shelf)}
+                handleMoveShelf={this.updateShelf}
               />
             ))}
           </div>
