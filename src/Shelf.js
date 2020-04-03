@@ -7,19 +7,17 @@ const Shelf = (props) => (
     <h2 className="bookshelf-title">{props.shelfName}</h2>
     <div className="bookshelf-books">
       <ol className="books-grid">
-        <li>
-          <Book />
-        </li>
-        <li>
-          <Book />
-        </li>
+        {props.books.map((book) => (
+          <Book key={book.id} book={book} />
+        ))}
       </ol>
     </div>
   </div>
 );
 
 Shelf.propTypes = {
-  shelfName: PropTypes.string.isRequired
+  shelfName: PropTypes.string.isRequired,
+  books: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default Shelf;
