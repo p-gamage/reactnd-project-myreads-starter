@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Shelf from './Shelf';
+import {Link} from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 
 const shelves = ['Currently Reading', 'Want to Read', 'Read'];
@@ -36,6 +37,9 @@ class Library extends Component {
             ))}
           </div>
         </div>
+        <Link className="open-search" to="/search">
+          Add a book
+        </Link>
       </div>
     );
   }
