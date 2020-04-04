@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class MoveBook extends Component {
   state = {
-    shelf: this.props.currentShelf
+    shelf: this.props.currentShelf || 'none'
   };
 
   handleOnChange = (event) => {
@@ -22,7 +22,7 @@ class MoveBook extends Component {
           <option value="currentlyReading">Currently Reading</option>
           <option value="wantToRead">Want to Read</option>
           <option value="read">Read</option>
-          {/*<option value="none">None</option>*/}
+          <option value="none">None</option>
         </select>
       </div>
     );
