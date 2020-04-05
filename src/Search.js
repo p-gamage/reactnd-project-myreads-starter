@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import Book from './Book';
@@ -10,11 +11,12 @@ class Search extends Component {
   };
 
   searchApi = (query) => {
-    BooksAPI.search(query).then((searchResult) => this.setState({query, searchResult}));
+    BooksAPI.search(query).then((searchResult) => this.setState({searchResult}));
   };
 
   handleOnChange = (query) => {
-    !query ? this.setState({query, searchResult: []}) : this.searchApi(query);
+    this.setState({query});
+    !query ? this.setState({searchResult: []}) : this.searchApi(query);
   };
 
   render() {
@@ -39,12 +41,18 @@ class Search extends Component {
           {searchResult.error && `No results found for ${query}`}
           <ol className="books-grid">
             {searchResult.length > 0 &&
-              searchResult.map((book) => <Book key={book.id} book={book} />)}
+              searchResult.map((book) => (
+                <Book key={book.id} book={book} handleMoveShelf={this.props.updateShelf} />
+              ))}
           </ol>
         </div>
       </div>
     );
   }
 }
+
+Search.propTypes = {
+  updateShelf: PropTypes.func.isRequired
+};
 
 export default Search;

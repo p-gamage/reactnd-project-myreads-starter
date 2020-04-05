@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class MoveBook extends Component {
   state = {
-    shelf: this.props.currentShelf || 'none'
+    shelf: this.props.currentShelf
   };
 
   handleOnChange = (event) => {

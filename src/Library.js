@@ -1,58 +1,45 @@
-import React, {Component} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Shelf from './Shelf';
 import {Link} from 'react-router-dom';
-import * as BooksAPI from './BooksAPI';
 
 const shelves = ['Currently Reading', 'Want to Read', 'Read'];
 
-class Library extends Component {
-  state = {
-    books: []
-  };
+const Library = (props) => {
+  const formatShelfName = (name) => name.toLowerCase().replace(/\s/g, '');
 
-  async componentDidMount() {
-    const books = await BooksAPI.getAll();
-    this.setState({books});
-  }
+  const filterBooks = (books, currentShelf) =>
+    books.filter((book) => formatShelfName(book.shelf) === formatShelfName(currentShelf));
 
-  formatShelfName = (name) => name.toLowerCase().replace(/\s/g, '');
+  const {books, updateShelf} = props;
 
-  filterBooks = (books, currentShelf) =>
-    books.filter((book) => this.formatShelfName(book.shelf) === this.formatShelfName(currentShelf));
-
-  updateShelf = (bookId, newShelf) => {
-    const bookToUpdate = this.state.books.find((book) => book.id === bookId);
-    bookToUpdate.shelf = newShelf;
-
-    BooksAPI.update(bookToUpdate, newShelf);
-
-    this.setState({bookToUpdate});
-  };
-
-  render() {
-    return (
-      <div className="list-books">
-        <div className="list-books-title">
-          <h1>MyReads</h1>
-        </div>
-        <div className="list-books-content">
-          <div>
-            {shelves.map((shelf) => (
-              <Shelf
-                key={this.formatShelfName(shelf)}
-                shelfName={shelf}
-                books={this.filterBooks(this.state.books, shelf)}
-                handleMoveShelf={this.updateShelf}
-              />
-            ))}
-          </div>
-        </div>
-        <Link className="open-search" to="/search">
-          Add a book
-        </Link>
+  return (
+    <div className="list-books">
+      <div className="list-books-title">
+        <h1>MyReads</h1>
       </div>
-    );
-  }
-}
+      <div className="list-books-content">
+        <div>
+          {shelves.map((shelf) => (
+            <Shelf
+              key={formatShelfName(shelf)}
+              shelfName={shelf}
+              books={filterBooks(books, shelf)}
+              handleMoveShelf={updateShelf}
+            />
+          ))}
+        </div>
+      </div>
+      <Link className="open-search" to="/search">
+        Add a book
+      </Link>
+    </div>
+  );
+};
+
+Library.propTypes = {
+  books: PropTypes.arrayOf(PropTypes.object).isRequired,
+  updateShelf: PropTypes.func.isRequired
+};
 
 export default Library;
