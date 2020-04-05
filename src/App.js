@@ -15,15 +15,22 @@ class BooksApp extends Component {
     this.setState({books});
   }
 
+  updateBook = async (bookToUpdate, newShelf) => {
+    bookToUpdate.shelf = newShelf;
+    await BooksAPI.update(bookToUpdate, newShelf);
+  };
+
   updateShelf = async (bookId, newShelf) => {
     let bookToUpdate = this.state.books.find((book) => book.id === bookId);
 
-    bookToUpdate = bookToUpdate ? bookToUpdate : await BooksAPI.get(bookId);
-    bookToUpdate.shelf = newShelf;
-
-    BooksAPI.update(bookToUpdate, newShelf);
-
-    this.setState({bookToUpdate});
+    if (bookToUpdate) {
+      this.updateBook(bookToUpdate, newShelf);
+      this.setState({bookToUpdate});
+    } else {
+      bookToUpdate = await BooksAPI.get(bookId);
+      this.updateBook(bookToUpdate, newShelf);
+      this.setState((prevState) => ({books: prevState.books.concat(bookToUpdate)}));
+    }
   };
 
   render() {
