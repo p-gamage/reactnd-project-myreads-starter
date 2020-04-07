@@ -37,11 +37,11 @@ class BooksApp extends Component {
     return (
       <div className="app">
         <Route
-          exact
+          exact 
           path={'/'}
           render={() => <Library books={this.state.books} updateShelf={this.updateShelf} />}
         />
-        <Route path={'/search'} render={() => <Search updateShelf={this.updateShelf} />} />
+        <Route path={'/search'} render={() => <Search books={this.state.books} updateShelf={this.updateShelf} />} />
       </div>
     );
   }

@@ -11,12 +11,28 @@ class Search extends Component {
   };
 
   searchApi = (query) => {
-    BooksAPI.search(query).then((searchResult) => this.setState({searchResult}));
+    BooksAPI.search(query).then((searchResult) => {
+      const updatedSearchResult = searchResult ? this.updateWithExistingBooks(searchResult) : [];
+      this.setState({searchResult: updatedSearchResult});
+    });
   };
 
   handleOnChange = (query) => {
     this.setState({query});
     !query ? this.setState({searchResult: []}) : this.searchApi(query);
+  };
+
+  updateWithExistingBooks = (searchResult) => {
+    const updatedBooks = [];
+
+    if (!searchResult.error) {
+      searchResult.forEach((searchBook) => {
+        const existingBook = this.props.books.find((book) => book.id === searchBook.id);
+        existingBook ? updatedBooks.push(existingBook) : updatedBooks.push(searchBook);
+      });
+    }
+
+    return updatedBooks;
   };
 
   render() {
