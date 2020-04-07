@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
+import debounce from 'lodash.debounce';
 import Book from './Book';
 
 class Search extends Component {
@@ -19,7 +20,7 @@ class Search extends Component {
 
   handleOnChange = (query) => {
     this.setState({query});
-    !query ? this.setState({searchResult: []}) : this.searchApi(query);
+    !query ? this.setState({searchResult: []}) : debounce(this.searchApi, 300)(query);
   };
 
   updateWithExistingBooks = (searchResult) => {
